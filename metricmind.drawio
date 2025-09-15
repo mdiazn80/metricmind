@@ -75,7 +75,10 @@
         <mxCell id="baOnGXpHI-nj1ReWNNrG-9" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="430" y="50" width="30" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="baOnGXpHI-nj1ReWNNrG-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="baOnGXpHI-nj1ReWNNrG-12" target="baOnGXpHI-nj1ReWNNrG-21">
+        <mxCell id="baOnGXpHI-nj1ReWNNrG-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fillColor=#a0522d;strokeColor=#6D1F00;strokeWidth=2;" edge="1" parent="1" source="baOnGXpHI-nj1ReWNNrG-12" target="baOnGXpHI-nj1ReWNNrG-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="baOnGXpHI-nj1ReWNNrG-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#6d8764;strokeColor=#3A5431;strokeWidth=2;" edge="1" parent="1" source="baOnGXpHI-nj1ReWNNrG-12" target="baOnGXpHI-nj1ReWNNrG-24">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="baOnGXpHI-nj1ReWNNrG-12" value="loki ingester" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -103,17 +106,24 @@
         <mxCell id="baOnGXpHI-nj1ReWNNrG-16" value="alloy" style="rounded=1;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="1">
           <mxGeometry x="610" y="70" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="baOnGXpHI-nj1ReWNNrG-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="baOnGXpHI-nj1ReWNNrG-19" target="baOnGXpHI-nj1ReWNNrG-21">
+        <mxCell id="baOnGXpHI-nj1ReWNNrG-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;fillColor=#a0522d;strokeColor=#6D1F00;" edge="1" parent="1" source="baOnGXpHI-nj1ReWNNrG-19" target="baOnGXpHI-nj1ReWNNrG-21">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="baOnGXpHI-nj1ReWNNrG-19" value="loki querier" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="505" width="120" height="60" as="geometry" />
+          <mxGeometry x="200" y="610" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="baOnGXpHI-nj1ReWNNrG-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;fillColor=#6d8764;strokeColor=#3A5431;" edge="1" parent="1" source="baOnGXpHI-nj1ReWNNrG-21" target="baOnGXpHI-nj1ReWNNrG-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="530" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="baOnGXpHI-nj1ReWNNrG-21" value="minio" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="60" y="445" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="baOnGXpHI-nj1ReWNNrG-24" value="ruler" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="620" width="120" height="60" as="geometry" />
+        <mxCell id="baOnGXpHI-nj1ReWNNrG-24" value="loki ruler" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="500" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
