@@ -1,0 +1,18 @@
+services:
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION}
+    hostname: grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - type: bind
+        source: ./grafana/grafana.ini
+        target: /etc/grafana/grafana.ini
+    networks:
+      - metricmind-network
+
+networks:
+  metricmind-network:
+    driver: bridge

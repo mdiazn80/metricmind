@@ -1,0 +1,57 @@
+services:
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION}
+    hostname: grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - type: bind
+        source: ./grafana/grafana.ini
+        target: /etc/grafana/grafana.ini
+    networks:
+      - metricmind-network
+
+  prometheus:
+    image: prom/prometheus:${PROMETHEUS_VERSION}
+    hostname: prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - type: bind
+        source: ./prometheus/prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+      - type: volume
+        source: volume-metricmind-prometheus
+        target: /var/lib/postgresql/data
+    networks:
+      - metricmind-network
+
+  alertmanager:
+    image: prom/alertmanager:${ALERTMANAGER_VERSION}
+    hostname: alertmanager
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - type: bind
+        source: ./alertmanager/alertmanager.yml
+        target: /etc/alertmanager/alertmanager.yml
+        read_only: true
+      - type: volume
+        source: volume-metricmind-alertmanager
+        target: /alertmanager
+    networks:
+      - metricmind-network
+
+volumes:
+  volume-metricmind-prometheus:
+  volume-metricmind-alertmanager:
+
+networks:
+  metricmind-network:
+    driver: bridge
