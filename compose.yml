@@ -1,4 +1,21 @@
 services:
+
+  traefik:
+    image: traefik:${TRAEFIK_VERSION}
+    hostname: traefik
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./traefik/traefik.yml
+        target: /etc/traefik/traefik.yml
+        read_only: true
+    networks:
+      - metricmind-network
+
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION}
     hostname: grafana
@@ -12,6 +29,102 @@ services:
         target: /etc/grafana/grafana.ini
     networks:
       - metricmind-network
+
+  alertmanager:
+    image: prom/alertmanager:${ALERTMANAGER_VERSION}
+    hostname: alertmanager
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - type: bind
+        source: ./alertmanager/alertmanager.yml
+        target: /etc/alertmanager/alertmanager.yml
+        read_only: true
+      - type: volume
+        source: volume-metricmind-alertmanager
+        target: /alertmanager
+    networks:
+      - metricmind-network
+
+  alloy:
+    image: grafana/alloy:${ALLOY_VERSION}
+    hostname: alloy
+    container_name: alloy
+    ports:
+      - "12345:12345"
+    command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./alloy/config.alloy
+        target: /etc/alloy/config.alloy
+        read_only: true
+      - type: volume
+        source: volume-metricmind-alloy
+        target: /var/lib/alloy/data
+    networks:
+      - metricmind-network
+
+  prometheus:
+    image: prom/prometheus:${PROMETHEUS_VERSION}
+    hostname: prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./prometheus/prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+      - type: volume
+        source: volume-metricmind-prometheus
+        target: /prometheus
+    networks:
+      - metricmind-network
+
+  loki-ingester:
+    image: grafana/loki:${LOKI_VERSION}
+    hostname: loki-ingester
+    container_name: loki-ingester
+    command: "-config.file=/etc/loki/config.yaml -target=write"
+    ports:
+      - 3102:3100
+      - 7946
+      - 9095
+    volumes:
+      - type: bind
+        source: ./loki/config.yaml
+        target: /etc/loki/config.yaml
+        read_only: true
+    networks:
+      - monitoring-network
+
+  minio:
+    image: minio/minio:${MINIO_VERSION}
+    hostname: minio
+    container_name: minio
+    environment:
+      - MINIO_ACCESS_KEY=loki
+      - MINIO_SECRET_KEY=supersecret
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
+      - MINIO_UPDATE=off
+    ports:
+      - "9000:9000"
+    volumes:
+      - type: volume
+        source: volume-metricmind-minio
+        target: /data
+    networks:
+      - monitoring-network
+
+volumes:
+  volume-metricmind-alertmanager:
+  volume-metricmind-prometheus:
+  volume-metricmind-alloy:
+  volume-metricmind-minio:
 
 networks:
   metricmind-network:

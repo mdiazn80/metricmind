@@ -4,6 +4,10 @@
 
 * [https://www.docker.com/](https://www.docker.com/)
 
+## Diagram
+
+![Diagram](metricmind.drawio.png)
+
 ## Install
 
 ### Init
