@@ -140,15 +140,17 @@ services:
       MINIO_DEFAULT_BUCKET_POLICY: ${MINIO_DEFAULT_BUCKET_POLICY}
     entrypoint: >
       sh -c "
-        mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
-        mc mb --ignore-existing local/${MINIO_DEFAULT_BUCKET} &&
+        mc alias set metricmindminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
+        mc mb --ignore-existing metricmindminio/${MINIO_DEFAULT_BUCKET} &&
         if [ \"${MINIO_DEFAULT_BUCKET_POLICY}\" = \"public\" ]; then
-          mc anonymous set download local/${MINIO_DEFAULT_BUCKET};
+          mc anonymous set download metricmindminio/${MINIO_DEFAULT_BUCKET};
         elif [ \"${MINIO_DEFAULT_BUCKET_POLICY}\" = \"private\" ]; then
-          mc anonymous set none local/${MINIO_DEFAULT_BUCKET};
+          mc anonymous set none metricmindminio/${MINIO_DEFAULT_BUCKET};
         fi
       "
     restart: "no"
+    networks:
+      - metricmind-network
 
 volumes:
   volume-metricmind-grafana:
