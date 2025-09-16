@@ -110,18 +110,45 @@ services:
     hostname: minio
     container_name: minio
     environment:
-      - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=admin
-    # ports:
-    #   - "9000:9000"
-    #   - "9001:9001"
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
     command: server /data --console-address ":9001"
     volumes:
       - type: volume
         source: volume-metricmind-minio
         target: /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - metricmind-network
+
+  mc-init:
+    image: minio/mc:${MINIO_MC_VERSION}
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_DEFAULT_BUCKET: ${MINIO_DEFAULT_BUCKET}
+      MINIO_DEFAULT_BUCKET_POLICY: ${MINIO_DEFAULT_BUCKET_POLICY}
+    entrypoint: >
+      sh -c "
+        mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
+        mc mb --ignore-existing local/${MINIO_DEFAULT_BUCKET} &&
+        if [ \"${MINIO_DEFAULT_BUCKET_POLICY}\" = \"public\" ]; then
+          mc anonymous set download local/${MINIO_DEFAULT_BUCKET};
+        elif [ \"${MINIO_DEFAULT_BUCKET_POLICY}\" = \"private\" ]; then
+          mc anonymous set none local/${MINIO_DEFAULT_BUCKET};
+        fi
+      "
+    restart: "no"
 
 volumes:
   volume-metricmind-grafana:
