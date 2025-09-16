@@ -1,0 +1,6 @@
+tls:
+  certificates:
+    - certFile: /certs/metricmind.local.pem
+      keyFile:  /certs/metricmind.local-key.pem
+      stores:
+        - default

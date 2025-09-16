@@ -7,11 +7,24 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
       - "8080:8080"
     volumes:
       - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+      - type: bind
         source: ./traefik/traefik.yml
         target: /etc/traefik/traefik.yml
+        read_only: true
+      - type: bind
+        source: ./traefik/dynamic
+        target: /etc/traefik/dynamic
+        read_only: true
+      - type: bind
+        source: ./traefik/certs
+        target: /certs
         read_only: true
     networks:
       - metricmind-network
@@ -100,7 +113,7 @@ services:
         target: /etc/loki/config.yaml
         read_only: true
     networks:
-      - monitoring-network
+      - metricmind-network
 
   minio:
     image: minio/minio:${MINIO_VERSION}
@@ -118,7 +131,7 @@ services:
         source: volume-metricmind-minio
         target: /data
     networks:
-      - monitoring-network
+      - metricmind-network
 
 volumes:
   volume-metricmind-alertmanager:

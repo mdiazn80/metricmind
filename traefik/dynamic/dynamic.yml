@@ -1,0 +1,33 @@
+http:
+  routers:
+    grafana:
+      rule: Host(`grafana.metricmind.local`)
+      entryPoints: [websecure]
+      tls: {}
+      middlewares:
+        - default-sec
+      service: grafana-svc
+    prometheus:
+      rule: Host(`prometheus.metricmind.local`)
+      entryPoints: [websecure]
+      tls: {}
+      middlewares:
+        - default-sec
+      service: prometheus-svc
+
+  services:
+    grafana-svc:
+      loadBalancer:
+        servers:
+          - url: "http://grafana:3000"
+    prometheus-svc:
+      loadBalancer:
+        servers:
+          - url: "http://prometheus:9090"
+
+  middlewares:
+    default-sec:
+      headers:
+        stsSeconds: 31536000
+        browserXssFilter: true
+        contentTypeNosniff: true
