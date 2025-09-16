@@ -4,7 +4,7 @@ server:
   http_listen_port: 3100
 
 memberlist:
-  join_members: ["loki-ingester"]
+  join_members: ["loki"]
   dead_node_reclaim_time: 30s
   gossip_to_dead_nodes_time: 15s
   left_ingesters_timeout: 30s
