@@ -14,6 +14,20 @@ http:
       middlewares:
         - default-sec
       service: prometheus-svc
+    alertmanager:
+      rule: Host(`alertmanager.metricmind.local`)
+      entryPoints: [websecure]
+      tls: {}
+      middlewares:
+        - default-sec
+      service: alertmanager-svc
+    minio:
+      rule: Host(`minio.metricmind.local`)
+      entryPoints: [websecure]
+      tls: {}
+      middlewares:
+        - default-sec
+      service: minio-svc
 
   services:
     grafana-svc:
@@ -24,6 +38,14 @@ http:
       loadBalancer:
         servers:
           - url: "http://prometheus:9090"
+    alertmanager-svc:
+      loadBalancer:
+        servers:
+          - url: "http://alertmanager:9093"
+    minio-svc:
+      loadBalancer:
+        servers:
+          - url: "http://minio:9001"
 
   middlewares:
     default-sec:
