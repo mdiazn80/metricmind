@@ -1,6 +1,6 @@
 tls:
   certificates:
-    - certFile: /certs/metricmind.local.pem
-      keyFile:  /certs/metricmind.local-key.pem
+    - certFile: /certs/_wildcard.metricmind.local.pem
+      keyFile:  /certs/_wildcard.metricmind.local-key.pem
       stores:
         - default

@@ -76,6 +76,9 @@ services:
     container_name: prometheus
     # ports:
     #   - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-remote-write-receiver"
     restart: unless-stopped
     volumes:
       - type: bind
@@ -97,6 +100,7 @@ services:
     #   - 3100:3100
     #   - 7946
     #   - 9095
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./loki/config.yaml
@@ -124,6 +128,7 @@ services:
     #   - "9000:9000"
     #   - "9001:9001"
     command: server /data --console-address ":9001"
+    restart: unless-stopped
     volumes:
       - type: volume
         source: volume-metricmind-minio

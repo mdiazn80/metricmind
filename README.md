@@ -8,6 +8,20 @@
 
 ![Diagram](metricmind.drawio.png)
 
+## Pre
+
+### Generate certificates
+
+```sh
+mkcert '*.metricmind.local'
+```
+
+Move the files to traefik/certs directory.
+
+### Hosts file
+
+Copy hosts file.
+
 ## Install
 
 ### Init
@@ -40,3 +54,4 @@ docker compose stop
 * [https://github.com/grafana/loki](https://github.com/grafana/loki)
 * [https://github.com/minio/minio](https://github.com/minio/minio)
 * [https://github.com/grafana/alloy](https://github.com/grafana/alloy)
+* [https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
